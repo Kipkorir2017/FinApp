@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
 import "../index.css";
-import Header from "../components/Header"; 
+import Header from "../components/Header";
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -15,28 +15,33 @@ function Users() {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
 
-  // Ensure token exists
-  const axiosConfig = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
+  
+  const axiosConfig = useMemo(() => ({
+    headers: {
+      Authorization: token ? `Bearer ${token}` : ""
+    }
+  }), [token]);
 
-  // Fetch all users if logged in as admin
-  useEffect(() => {
-    if (role === "admin") fetchUsers();
-  }, [role]);
+  
+  const USERS_API = `${process.env.REACT_APP_API_URL}/api/users`;
 
-  const fetchUsers = async () => {
+  
+  const fetchUsers = useCallback(async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:5000/api/users/all",
-        axiosConfig
-      );
+      const res = await axios.get(`${USERS_API}/all`, axiosConfig);
       setUsers(res.data);
     } catch (err) {
       console.error("Fetch users error:", err);
       alert(err.response?.data?.message || "Failed to fetch users.");
     }
-  };
+  }, [USERS_API, axiosConfig]);
+
+  
+  useEffect(() => {
+    if (role === "admin") {
+      fetchUsers();
+    }
+  }, [role, fetchUsers]);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -45,11 +50,10 @@ function Users() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/users/create",
+        `${USERS_API}/create`,
         form,
         axiosConfig
       );
-      console.log("User created:", res.data);
       alert(res.data.message || "User created successfully!");
       fetchUsers();
       setForm({ name: "", email: "", password: "", role: "agent" });
@@ -64,10 +68,9 @@ function Users() {
 
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/users/${id}`,
+        `${USERS_API}/${id}`,
         axiosConfig
       );
-      console.log("User deleted:", res.data);
       alert(res.data.message || "User deleted successfully!");
       fetchUsers();
     } catch (err) {
@@ -79,11 +82,10 @@ function Users() {
   const changeRole = async (id, newRole) => {
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/users/${id}`,
+        `${USERS_API}/${id}`,
         { role: newRole },
         axiosConfig
       );
-      console.log("Role updated:", res.data);
       alert(res.data.message || "Role updated successfully!");
       fetchUsers();
     } catch (err) {
@@ -97,8 +99,9 @@ function Users() {
   return (
     <div className="users-page">
       <div className="main">
-        <Header/>
-        </div>
+        <Header />
+      </div>
+
       <h2>User Management</h2>
 
       {/* CREATE USER FORM */}
