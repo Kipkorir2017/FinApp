@@ -8,34 +8,36 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+ 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        `${API_URL}/api/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
 
       const { token, user } = res.data;
 
-      // Save token and user info
       localStorage.setItem("token", token);
       localStorage.setItem("role", user.role);
       localStorage.setItem("name", user.name);
 
-      // Role-based redirect
       if (user.role === "admin") {
         navigate("/");
       } else if (user.role === "teamleader") {
         navigate("/AgentLeaderboard");
       } else {
-        navigate("/"); // default dashboard for normal users
+        navigate("/");
       }
     } catch (err) {
-      alert(
-        err.response?.data?.message || "Invalid credentials"
-      );
+      alert(err.response?.data?.message || "Invalid credentials");
     }
   };
 
