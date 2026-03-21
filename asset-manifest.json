@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.26032c58.css",
-    "main.js": "/static/js/main.b6696e27.js",
-    "static/js/453.44152031.chunk.js": "/static/js/453.44152031.chunk.js",
-    "index.html": "/index.html",
-    "main.26032c58.css.map": "/static/css/main.26032c58.css.map",
-    "main.b6696e27.js.map": "/static/js/main.b6696e27.js.map",
-    "453.44152031.chunk.js.map": "/static/js/453.44152031.chunk.js.map"
+    "main.css": "/FinApp/static/css/main.26032c58.css",
+    "main.js": "/FinApp/static/js/main.d29dcde6.js",
+    "static/js/453.44152031.chunk.js": "/FinApp/static/js/453.44152031.chunk.js",
+    "index.html": "/FinApp/index.html",
+    "main.26032c58.css.map": "/FinApp/static/css/main.26032c58.css.map",
+    "main.d29dcde6.js.map": "/FinApp/static/js/main.d29dcde6.js.map",
+    "453.44152031.chunk.js.map": "/FinApp/static/js/453.44152031.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.26032c58.css",
-    "static/js/main.b6696e27.js"
+    "static/js/main.d29dcde6.js"
   ]
 }
