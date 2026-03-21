@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://kipkorir2017.github.io/FinApp",
-  "proxy": "http://localhost:5000",
+  "proxy": "http://finloan-production.up.railway.app",
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
