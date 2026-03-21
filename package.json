@@ -2,6 +2,7 @@
   "name": "fintech",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://kipkorir2017.github.io/FinApp",
   "proxy": "http://localhost:5000",
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
@@ -9,7 +10,6 @@
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.13.6",
-    "homepage": "https://kipkorir2017.github.io/FinApp",
     "react": "19.2",
     "react-dom": "19.2",
     "react-router-dom": "6.14",
