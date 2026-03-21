@@ -9,7 +9,7 @@
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.13.6",
-    "homepage": "https://github.com/Kipkorir2017/FinApp.git",
+    "homepage": "https://kipkorir2017.github.io/FinApp",
     "react": "19.2",
     "react-dom": "19.2",
     "react-router-dom": "6.14",
