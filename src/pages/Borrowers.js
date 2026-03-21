@@ -24,7 +24,7 @@ function Borrowers() {
     }
   }), [token]);
 
-  // ✅ Using environment variable
+  
   const BORROWERS_API = `${process.env.REACT_APP_API_URL}/api/borrowers`;
 
   const fetchBorrowers = useCallback(async () => {
