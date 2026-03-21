@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/FinApp/static/css/main.26032c58.css",
-    "main.js": "/FinApp/static/js/main.d29dcde6.js",
+    "main.js": "/FinApp/static/js/main.d4f03c09.js",
     "static/js/453.44152031.chunk.js": "/FinApp/static/js/453.44152031.chunk.js",
     "index.html": "/FinApp/index.html",
     "main.26032c58.css.map": "/FinApp/static/css/main.26032c58.css.map",
-    "main.d29dcde6.js.map": "/FinApp/static/js/main.d29dcde6.js.map",
+    "main.d4f03c09.js.map": "/FinApp/static/js/main.d4f03c09.js.map",
     "453.44152031.chunk.js.map": "/FinApp/static/js/453.44152031.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.26032c58.css",
-    "static/js/main.d29dcde6.js"
+    "static/js/main.d4f03c09.js"
   ]
 }
