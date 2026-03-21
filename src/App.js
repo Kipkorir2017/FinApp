@@ -9,7 +9,6 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Users from "./pages/Users";
 import AdminAnalytics from "./components/AdminAnalytics";
-import AgentLeaderboard from "./components/AgentLeaderboard";
 import "./index.css";
 
 function App() {
@@ -30,15 +29,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/AgentLeaderboard"
-          element={
-            <ProtectedRoute allowedRoles={["teamleader", "admin"]}>
-              {/* <AgentLeaderboard /> */}
-            </ProtectedRoute>
-          }
-        />
-
+       
         {/* General protected routes */}
         <Route
           path="/"
