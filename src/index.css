@@ -461,202 +461,6 @@ border-radius:50%;
 }
 
 /* Borrowers page */
-.borrowers-page {
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-}
-
-h2 {
-  margin-bottom: 20px;
-  color: #111827;
-}
-
-.table-container {
-  overflow-x: auto;
-  background: #fff;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-}
-
-.borrowers-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.borrowers-table th,
-.borrowers-table td {
-  padding: 10px 12px;
-  text-align: left;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.borrowers-table th {
-  background-color: #2563eb;
-  color: white;
-  font-weight: 600;
-}
-
-.borrowers-table tr:hover {
-  background-color: #f1f5f9;
-}
-
-.clickable-name {
-  color: #2563eb;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.phone-cell {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.call-link {
-  color: #10b981;
-  text-decoration: none;
-  margin-left: 5px;
-}
-
-.phone-icon {
-  vertical-align: middle;
-}
-
-.copy-icon {
-  cursor: pointer;
-  color: #6b7280;
-}
-
-.copy-icon:hover {
-  color: #111827;
-}
-
-.comment-input {
-  width: 90%;
-  padding: 5px 8px;
-  border: 1px solid #d1d5db;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.save-comment-btn {
-  padding: 5px 10px;
-  margin-left: 5px;
-  background-color: #2563eb;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.save-comment-btn:hover {
-  background-color: #1d4ed8;
-}
-
-.status-column {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.status-button {
-  font-size: 18px;
-  cursor: pointer;
-  opacity: 0.6;
-}
-
-.status-button.active {
-  opacity: 1;
-}
-
-.called-btn {
-  color: #10b981;
-}
-
-.unreachable-btn {
-  color: #ef4444;
-}
-
-.expanded-row {
-  background-color: #f9fafb;
-}
-
-.expanded-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: bold;
-  padding: 8px 0;
-}
-
-.back-icon {
-  cursor: pointer;
-  color: #2563eb;
-}
-
-.expanded-content p {
-  margin: 4px 0;
-}
-/* Header */
-.page-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
-
-.page-header h2{
-  font-size:24px;
-  color:#333;
-}
-
-/* Add Button */
-.add-btn{
-  background:#2563eb;
-  color:white;
-  border:none;
-  padding:10px 18px;
-  border-radius:6px;
-  cursor:pointer;
-  font-size:14px;
-}
-
-.add-btn:hover{
-  background:#1d4ed8;
-}
-
-/* Table container */
-.table-container{
-  background:white;
-  border-radius:10px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
-  overflow:hidden;
-}
-
-/* Table */
-.borrowers-table{
-  width:100%;
-  border-collapse:collapse;
-}
-
-.borrowers-table thead{
-  background:#f1f5f9;
-}
-
-.borrowers-table th{
-  text-align:left;
-  padding:14px 16px;
-  font-size:14px;
-  color:#555;
-}
-
-.borrowers-table td{
-  padding:14px 16px;
-  border-top:1px solid #eee;
-  font-size:14px;
-}
 
 .details-modal {
   position: fixed;
@@ -805,8 +609,8 @@ h2 {
 }
 /* Customer name clickable like normal text */
 .clickable-name {
-  color: #000;           /* black text */
-  cursor: pointer;       /* pointer to indicate click */
+  color: #000;           
+  cursor: pointer;       
   font-weight: 500;
   font-size: 14px;
   transition: background 0.2s, font-weight 0.2s;
@@ -814,8 +618,8 @@ h2 {
 
 /* Subtle hover effect */
 .clickable-name:hover {
-  font-weight: 600;      /* slightly bolder on hover */
-  background: #f3f4f6;  /* light gray highlight */
+  font-weight: 600;      
+  background: #f3f4f6;  
 }
 
 /* Analytics */
@@ -880,7 +684,7 @@ margin-top:20px;
 /* RESPONSIVE */
 @media (max-width: 992px) {
   .charts-grid {
-    grid-template-columns: 1fr !important; /* stack on smaller screens */
+    grid-template-columns: 1fr !important; 
   }
 }
 
@@ -1093,7 +897,7 @@ background:#f8fafc;
 .click-name{
 
 cursor:pointer;
-color:#2563eb;
+/* color:#2563eb !important; */
 font-weight:600;
 
 }
@@ -1125,7 +929,7 @@ background:#16a34a;
 
 .high-risk{
 
-background:#ffe4e6;
+/* background:#ffe4e6; */
 font-weight:600;
 
 }
@@ -1390,4 +1194,177 @@ background:#dc2626;
 .table-container {
   width: 100%;
   overflow-x: auto;
+}
+
+
+
+
+/* DUE BORROWERS PAGE */
+
+.due-page-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.due-main-content {
+  flex: 1;
+  padding: 20px;
+  background: #f9fafb;
+}
+
+.due-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* TABLE */
+.due-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.due-table th {
+  background: #2563eb;
+  color: white;
+  padding: 14px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.due-table td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.due-table tr:hover {
+  background: #f8fafc;
+}
+
+/* CLICK NAME */
+.due-click-name {
+  cursor: pointer;
+  font-weight: 600;
+  color: #111827;
+}
+
+.due-click-name:hover {
+  text-decoration: underline;
+}
+
+/* PHONE CELL */
+.due-phone-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.due-copy-icon {
+  cursor: pointer;
+  color: #555;
+}
+
+.due-copy-icon:hover {
+  color: #000;
+}
+
+.due-call-icon {
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.due-call-icon:hover {
+  color: #1d4ed8;
+}
+
+/* STATUS */
+.due-status-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.due-status-icon {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.due-status-icon.called {
+  color: #22c55e;
+}
+
+.due-status-icon.unreachable {
+  color: #ef4444;
+}
+
+.due-status-label {
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.due-status-label.called {
+  color: #22c55e;
+}
+
+.due-status-label.unreachable {
+  color: #ef4444;
+}
+
+/* DETAILS */
+.due-details-row {
+  background: #f9fafb;
+}
+
+.due-details-box {
+  background: #f1f5f9;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+/* COMMENT SECTION */
+.due-comment-section {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.due-comment-section textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+.due-save-btn {
+  width: fit-content;
+  padding: 8px 14px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.due-save-btn:hover {
+  background: #1d4ed8;
+}
+
+/* RESPONSIVE */
+.due-table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+.Doncall{
+  color:#ff0000;
 }

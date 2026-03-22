@@ -10,6 +10,9 @@ function Sidebar() {
         <li>
           <NavLink to="/">Dashboard</NavLink>
         </li>
+        <li>
+          <NavLink to="/">Active Loans</NavLink>
+        </li>
 
         <li>
           <NavLink to="/borrowers">Due Loans</NavLink>
@@ -20,13 +23,10 @@ function Sidebar() {
         </li> */}
 
         <li>
-          <NavLink to="/">Active Loans</NavLink>
-        </li>
-        <li>
           <NavLink to="/OverDue">Overdue Loans</NavLink>
         </li>
         <li>
-          <NavLink to="/repayments">Repayments</NavLink>
+          <NavLink to="/">Repayments</NavLink>
         </li>
 
         <li>
