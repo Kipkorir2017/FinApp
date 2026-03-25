@@ -460,6 +460,74 @@ border-radius:50%;
   font-weight: bold;
 }
 
+
+/* Active Loans */
+/* Page layout */
+.container {
+  display: flex;
+  height: 100vh;
+  background: #f3f4f6;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Table styling */
+.borrowers-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Header */
+.borrowers-table thead {
+  background: #007bff;
+  color: #fff;
+}
+
+.borrowers-table th {
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Cells */
+.borrowers-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+/* Row hover */
+.borrowers-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* Section title */
+.page-title {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Optional: status styles */
+.overdue {
+  color: red;
+  font-weight: bold;
+}
+
+.unreachable {
+  color: red !important;
+  font-weight: bold;
+  background: none !important;
+}
+
 /* Borrowers page */
 
 .details-modal {

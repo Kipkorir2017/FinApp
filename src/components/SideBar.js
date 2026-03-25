@@ -11,7 +11,7 @@ function Sidebar() {
           <NavLink to="/">Dashboard</NavLink>
         </li>
         <li>
-          <NavLink to="/">Active Loans</NavLink>
+          <NavLink to="/ActiveLoans">Active Loans</NavLink>
         </li>
 
         <li>

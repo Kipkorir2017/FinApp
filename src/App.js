@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Users from "./pages/Users";
 import AdminAnalytics from "./components/AdminAnalytics";
+import ActiveLoans from "./pages/activeLoans"
 import "./index.css";
 
 function App() {
@@ -52,6 +53,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Users />
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/ActiveLoans"
+          element={
+            <ProtectedRoute>
+              <ActiveLoans />
             </ProtectedRoute>
           }
         />
