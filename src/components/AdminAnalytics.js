@@ -1,4 +1,5 @@
 import React from "react";
+import Sidebar from "./SideBar";
 import {
   LineChart,
   Line,
@@ -37,50 +38,56 @@ const profitData = [
 
 function AdminAnalytics() {
   return (
-    <div className="analytics-container">
-      <h2 className="page-title">Analytics Overview</h2>
+    <div className="admin-analytics-page">
+      {/* Sidebar */}
+      <Sidebar />
 
-      <div className="charts-grid">
-        {/* Loan Growth */}
-        <div className="chart-card">
-          <h3>Loan Growth</h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={loanGrowthData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="loans" stroke="#2563eb" strokeWidth={3} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+      {/* Main Analytics Content */}
+      <div className="analytics-container">
+        <h2 className="page-title">Analytics Overview</h2>
 
-        {/* Repayment Trends */}
-        <div className="chart-card">
-          <h3>Repayment Trends</h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={repaymentData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="repaid" fill="#22c55e" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+        <div className="charts-grid">
+          {/* Loan Growth */}
+          <div className="chart-card">
+            <h3>Loan Growth</h3>
+            <ResponsiveContainer width="100%" height={250}>
+              <LineChart data={loanGrowthData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="loans" stroke="#2563eb" strokeWidth={3} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
 
-        {/* Profit Graph */}
-        <div className="chart-card">
-          <h3>Profit Graph</h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={profitData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="profit" stroke="#f59e0b" strokeWidth={3} />
-            </LineChart>
-          </ResponsiveContainer>
+          {/* Repayment Trends */}
+          <div className="chart-card">
+            <h3>Repayment Trends</h3>
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={repaymentData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="repaid" fill="#22c55e" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Profit Graph */}
+          <div className="chart-card">
+            <h3>Profit Graph</h3>
+            <ResponsiveContainer width="100%" height={250}>
+              <LineChart data={profitData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="profit" stroke="#f59e0b" strokeWidth={3} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </div>

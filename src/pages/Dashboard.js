@@ -5,6 +5,8 @@ import Sidebar from "../components/SideBar";
 import Header from "../components/Header";
 import StatsCard from "../components/StatsCard";
 import BorrowersTable from "../components/BorrowersTable";
+import AdminAnalytics from "../components/AdminAnalytics";
+import AgentLeaderboard from "../components/AgentLeaderboard"
 
 function Dashboard() {
   const [role, setRole] = useState("");

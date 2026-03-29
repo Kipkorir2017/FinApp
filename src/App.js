@@ -73,7 +73,7 @@ function App() {
           }
         />
         <Route
-          path="/borrowers"
+          path="/due"
           element={
             <ProtectedRoute>
               <Borrowers />

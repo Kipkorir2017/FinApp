@@ -1,10 +1,16 @@
 import React from "react";
+import logo from "../assets/logo.png";
 import { NavLink } from "react-router-dom";
 
 function Sidebar() {
   return (
     <div className="sidebar">
-      <h2 className="logo">FinLoan</h2>
+      <h2 className="logo">
+        <a href="/" className="logo-link">
+          <img src={logo} alt="FinLoan logo" className="logo-img" />
+          <span>FinLoan</span>
+        </a>
+      </h2>
 
       <ul className="menu">
         <li>
@@ -15,7 +21,7 @@ function Sidebar() {
         </li>
 
         <li>
-          <NavLink to="/borrowers">Due Loans</NavLink>
+          <NavLink to="/due">Due Loans</NavLink>
         </li>
 
         {/* <li>
@@ -25,9 +31,9 @@ function Sidebar() {
         <li>
           <NavLink to="/OverDue">Overdue Loans</NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink to="/">Repayments</NavLink>
-        </li>
+        </li> */}
 
         <li>
           <NavLink to="/AdminAnalytics">Reports</NavLink>

@@ -26,7 +26,7 @@ function Borrowers() {
     [token],
   );
 
-  const API = `${process.env.REACT_APP_API_URL}/api/borrowers`;
+  const API = `${process.env.REACT_APP_API_URL}/api/borrowers/loans/due`;
 
   const fetchBorrowers = useCallback(async () => {
     try {
@@ -104,7 +104,7 @@ function Borrowers() {
       <Sidebar />
 
       <div className="due-main-content">
-        <h1 className="due-title">Due Loan Customers</h1>
+        <h1 className="due-title">Due Customers</h1>
 
         <table className="due-table">
           <thead>
