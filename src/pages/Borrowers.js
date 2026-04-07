@@ -1,31 +1,25 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
-import axios from "axios";
-import "../index.css";
 import Sidebar from "../components/SideBar";
-import {
-  FaPhoneAlt,
-  FaCheckCircle,
-  FaTimesCircle,
-  FaCopy,
-} from "react-icons/fa";
+import "../index.css";
+import { FaPhoneAlt, FaCheckCircle, FaTimesCircle, FaCopy } from "react-icons/fa";
+import axios from "axios";
 
 function Borrowers() {
   const [borrowers, setBorrowers] = useState([]);
   const [expanded, setExpanded] = useState(null);
-  const [borrowerStatus, setBorrowerStatus] = useState({});
-  const [borrowerComments, setBorrowerComments] = useState({});
+  const [contactStatusMap, setContactStatusMap] = useState({});
+  const [commentsMap, setCommentsMap] = useState({});
 
   const token = localStorage.getItem("token");
 
   const axiosConfig = useMemo(
     () => ({
-      headers: {
-        Authorization: token ? `Bearer ${token}` : "",
-      },
+      headers: { Authorization: token ? `Bearer ${token}` : "" },
     }),
-    [token],
+    [token]
   );
 
+  // ✅ DUE API
   const API = `${process.env.REACT_APP_API_URL}/api/borrowers/loans/due`;
 
   const fetchBorrowers = useCallback(async () => {
@@ -34,18 +28,18 @@ function Borrowers() {
       setBorrowers(res.data);
 
       const statusMap = {};
-      const commentsMap = {};
+      const commentInit = {};
 
       res.data.forEach((b) => {
-        statusMap[b._id] = b.status || null;
-        commentsMap[b._id] = b.notes || "";
+        statusMap[b.borrowerId] = b.contactStatus || null;
+        commentInit[b.borrowerId] = "";
       });
 
-      setBorrowerStatus(statusMap);
-      setBorrowerComments(commentsMap);
+      setContactStatusMap(statusMap);
+      setCommentsMap(commentInit);
     } catch (err) {
       console.error(err);
-      alert("Failed to fetch borrowers");
+      alert("Failed to fetch due borrowers");
     }
   }, [API, axiosConfig]);
 
@@ -53,19 +47,20 @@ function Borrowers() {
     fetchBorrowers();
   }, [fetchBorrowers]);
 
-  const toggle = (id) => {
-    setExpanded(expanded === id ? null : id);
-  };
+  const toggle = (id) => setExpanded(expanded === id ? null : id);
 
-  const markStatus = async (id, status) => {
+  const markStatus = async (borrowerId, status) => {
     try {
       await axios.put(
-        `${API}/${id}`,
-        { status, notes: borrowerComments[id] || "" },
-        axiosConfig,
+        `${process.env.REACT_APP_API_URL}/api/borrowers/${borrowerId}/contact-status`,
+        { status },
+        axiosConfig
       );
 
-      setBorrowerStatus((prev) => ({ ...prev, [id]: status }));
+      setContactStatusMap((prev) => ({
+        ...prev,
+        [borrowerId]: status,
+      }));
     } catch (err) {
       console.error(err);
       alert("Failed to update status");
@@ -73,19 +68,43 @@ function Borrowers() {
   };
 
   const handleCommentChange = (id, text) => {
-    setBorrowerComments((prev) => ({ ...prev, [id]: text }));
+    setCommentsMap((prev) => ({
+      ...prev,
+      [id]: text,
+    }));
   };
 
   const saveComment = async (id) => {
+    const commentText = commentsMap[id]?.trim();
+    if (!commentText) {
+      alert("Cannot save empty comment");
+      return;
+    }
+
     try {
       await axios.put(
-        `${API}/${id}`,
+        `${process.env.REACT_APP_API_URL}/api/borrowers/${id}/contact-status`,
         {
-          notes: borrowerComments[id],
-          status: borrowerStatus[id] || null,
+          notes: commentText,
+          status: contactStatusMap[id] || null,
         },
-        axiosConfig,
+        axiosConfig
       );
+
+      const updatedBorrowers = borrowers.map((b) =>
+        b.borrowerId === id
+          ? {
+              ...b,
+              notes: [
+                ...(b.notes || []),
+                { text: commentText, date: new Date(), agent: "You" },
+              ],
+            }
+          : b
+      );
+
+      setBorrowers(updatedBorrowers);
+      setCommentsMap((prev) => ({ ...prev, [id]: "" }));
 
       alert("Comment saved!");
     } catch (err) {
@@ -100,153 +119,117 @@ function Borrowers() {
   };
 
   return (
-    <div className="due-page-layout">
+    <div className="page-layout">
       <Sidebar />
+      <div className="main-content">
+        <h1 className="title">Due Customers</h1>
 
-      <div className="due-main-content">
-        <h1 className="due-title">Due Customers</h1>
-
-        <table className="due-table">
+        <table className="borrowers-table">
           <thead>
             <tr>
               <th>Name</th>
               <th>Phone</th>
               <th>Amount</th>
               <th>Due Date</th>
-              <th>Status</th>
+              <th>Contact Status</th>
             </tr>
           </thead>
 
           <tbody>
             {borrowers.map((b) => {
-              const latestLoan = b.borrowHistory?.[b.borrowHistory.length - 1];
+              const status = contactStatusMap[b.borrowerId];
 
               return (
-                <React.Fragment key={b._id}>
+                <React.Fragment key={`${b.borrowerId}-${b.dueDate}`}>
                   <tr>
                     <td
-                      className="due-click-name"
-                      onClick={() => toggle(b._id)}
+                      className="click-name"
+                      onClick={() => toggle(b.borrowerId)}
                     >
                       {b.name}
                     </td>
 
-                    {/* PHONE */}
-                    <td className="due-phone-cell">
+                    <td className="phone-cell">
                       <span>{b.phone}</span>
-
                       <FaCopy
-                        className="due-copy-icon"
+                        className="copy-icon"
                         onClick={() => copyPhone(b.phone)}
                       />
-
                       <a href={`tel:${b.phone}`}>
-                        <FaPhoneAlt className="due-call-icon" />
+                        <FaPhoneAlt className="call-icon" />
                       </a>
                     </td>
 
-                    <td>KES {latestLoan?.amount || 0}</td>
+                    {/* ✅ DIRECT FROM API */}
+                    <td>KES {b.amount || 0}</td>
 
-                    {/* Instead of overdue → show due date */}
                     <td>
-                      {latestLoan?.dueDate
-                        ? new Date(latestLoan.dueDate).toLocaleDateString()
+                      {b.dueDate
+                        ? new Date(b.dueDate).toLocaleDateString()
                         : "-"}
                     </td>
 
-                    {/* STATUS */}
                     <td>
-                      {borrowerStatus[b._id] ? (
-                        <span
-                          className={`due-status-label ${borrowerStatus[b._id]?.toLowerCase()}`}
-                        >
-                          {borrowerStatus[b._id]}
+                      {status ? (
+                        <span className={`status-label ${status.toLowerCase()}`}>
+                          {status}
                         </span>
                       ) : (
-                        <div className="due-status-buttons">
+                        <div className="status-buttons">
                           <FaCheckCircle
-                            className="due-status-icon called"
-                            onClick={() => markStatus(b._id, "Called")}
+                            className="status-icon called-icon"
+                            onClick={() =>
+                              markStatus(b.borrowerId, "Called")
+                            }
                           />
-
                           <FaTimesCircle
-                            className="due-status-icon unreachable"
-                            onClick={() => markStatus(b._id, "Unreachable")}
+                            className="status-icon unreachable-icon"
+                            onClick={() =>
+                              markStatus(b.borrowerId, "Unreachable")
+                            }
                           />
                         </div>
                       )}
                     </td>
                   </tr>
 
-                  {/* EXPANDED DETAILS */}
-                  {expanded === b._id && (
-                    <tr className="due-details-row">
+                  {expanded === b.borrowerId && (
+                    <tr className="details">
                       <td colSpan="5">
-                        <div className="due-details-box">
-                          {/* CONTACTS */}
-                          <p>
-                            <strong>Customer Phone:</strong> {b.phone}
-                          </p>
+                        <div className="details-box">
+                          <p><strong>Name:</strong> {b.name}</p>
+                          <p><strong>Phone:</strong> {b.phone}</p>
+                          <p><strong>Referee Name:</strong> {b.refereeName || "-"}</p>
+                          <p><strong>Referee Phone:</strong> {b.refereePhone || "-"}</p>
 
-                          <p>
-                            <strong>Email:</strong> {b.email || "-"}
-                          </p>
-
-                          <p>
-                            <strong>Referee Name:</strong>{" "}
-                            {b.refereeName || "-"}
-                          </p>
-                           <p>
-                            <strong>Referee Phone:</strong>{" "}
-                            {b.refereePhone || "-"}
-                            <span className="Doncall">-Do not call !</span>
-                          </p>
-
-                          {/* COMMENT (NOW INSIDE DETAILS ONLY) */}
-                          <div style={{ marginTop: "15px" }}>
+                          <div className="comment-box">
                             <textarea
                               placeholder="Enter call comment..."
-                              value={borrowerComments[b._id] || ""}
+                              value={commentsMap[b.borrowerId] || ""}
                               onChange={(e) =>
-                                handleCommentChange(b._id, e.target.value)
+                                handleCommentChange(b.borrowerId, e.target.value)
                               }
-                              style={{
-                                width: "100%",
-                                padding: "10px",
-                                borderRadius: "6px",
-                                border: "1px solid #ccc",
-                              }}
                             />
-
                             <button
                               className="called"
-                              style={{ marginTop: "10px" }}
-                              onClick={() => saveComment(b._id)}
+                              onClick={() => saveComment(b.borrowerId)}
                             >
-                              Save Comment
+                              Save
                             </button>
                           </div>
+
                           <div style={{ marginTop: "20px" }}>
                             <h4>Call History</h4>
 
-                            {b.notes && b.notes.length > 0 ? (
+                            {b.notes?.length > 0 ? (
                               b.notes
                                 .slice()
                                 .reverse()
                                 .map((note, index) => (
-                                  <div
-                                    key={index}
-                                    style={{
-                                      background: "#f1f5f9",
-                                      padding: "10px",
-                                      borderRadius: "6px",
-                                      marginBottom: "10px",
-                                    }}
-                                  >
-                                    <p style={{ margin: 0 }}>{note.text}</p>
-                                    <small style={{ color: "#555" }}>
-                                      {new Date(note.date).toLocaleString()} -{" "}
-                                      {note.agent}
+                                  <div key={index}>
+                                    <p>{note.text}</p>
+                                    <small>
+                                      {new Date(note.date).toLocaleString()} - {note.agent}
                                     </small>
                                   </div>
                                 ))

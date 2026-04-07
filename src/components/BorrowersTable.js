@@ -1,161 +1,174 @@
-import React, { useState } from "react";
+// BorrowersBoard.js
+import React, { useState, useEffect } from "react";
 
-const dummyBorrowers = [
-  {
-    _id: "1",
-    name: "John Mwangi",
-    phone: "0712345678",
-    email: "john@example.com",
-    dob: "1990-01-01",
-    balance: 15000,
-    status: "Overdue",
-    notes: "Has promised to pay next week",
-    refereeName: "Peter Kimani",
-    refereePhone: "0722000000",
-    borrowHistory: [{ amount: 10000 }, { amount: 15000 }],
-  },
-  {
-    _id: "2",
-    name: "Mary Wanjiku",
-    phone: "0723456789",
-    email: "mary@example.com",
-    dob: "1992-05-10",
-    balance: 8000,
-    status: "Pending",
-    notes: "Has promised to pay next week",
-    refereeName: "Jane Njeri",
-    refereePhone: "0733000000",
-    borrowHistory: [{ amount: 8000 }],
-  },
-  {
-    _id: "3",
-    name: "David Otieno",
-    phone: "0798765432",
-    email: "david@example.com",
-    dob: "1988-09-20",
-    balance: 20000,
-    status: "Overdue",
-    notes: "Not answering calls",
-    refereeName: "Samuel Ochieng",
-    refereePhone: "0700111222",
-    borrowHistory: [{ amount: 20000 }],
-  },
-  {
-    _id: "3",
-    name: "Chris Wamwenje",
-    phone: "0754765432",
-    email: "chris@example.com",
-    dob: "1958-09-20",
-    balance: 23000,
-    status: "Unreachable",
-    notes: "Not answering calls",
-    refereeName: "Samuel Ochieng",
-    refereePhone: "0700111222",
-    borrowHistory: [{ amount: 20000 }],
-  },
-  {
-    _id: "3",
-    name: "Danniel Ruto",
-    phone: "0794765432",
-    email: "daniel@example.com",
-    dob: "1981-09-20",
-    balance: 30000,
-    status: "Unreachable",
-    notes: "Not answering calls",
-    refereeName: "Samuel Kirui",
-    refereePhone: "0723111252",
-    borrowHistory: [{ amount: 20000 }],
-  },
-];
+const API_URL = process.env.REACT_APP_API_URL;
 
-function BorrowersTable() {
-  const [borrowers] = useState(dummyBorrowers);
+function BorrowersBoard() {
+  const [borrowers, setBorrowers] = useState([]);
+  const [filterBy, setFilterBy] = useState("name");
+  const [searchInput, setSearchInput] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selected, setSelected] = useState(null);
+  const [comment, setComment] = useState("");
 
-  const isHighRisk = (b) => {
-    const overdue = b.status === "Unreachable" || b.status === "Overdue";
-    const highBalance = b.balance > 10000;
-    return overdue || highBalance;
-  };
+  // ✅ Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
 
-  const highRiskBorrowers = borrowers.filter(isHighRisk);
+  useEffect(() => {
+    fetch(`${API_URL}/api/borrowers/risk`)
+      .then((res) => res.json())
+      .then((data) => setBorrowers(Array.isArray(data) ? data : []))
+      .catch((err) => console.error(err));
+  }, []);
+
+  const filteredBorrowers = Array.isArray(borrowers)
+    ? borrowers.filter((b) => {
+        if (!searchQuery) return true;
+        if (filterBy === "name") {
+          return b.name.toLowerCase().includes(searchQuery.toLowerCase());
+        } else if (filterBy === "status") {
+          return b.status?.toLowerCase().includes(searchQuery.toLowerCase());
+        }
+        return true;
+      })
+    : [];
+
+  //  Pagination logic
+  const totalPages = Math.ceil(filteredBorrowers.length / perPage);
+  const indexOfLast = currentPage * perPage;
+  const indexOfFirst = indexOfLast - perPage;
+  const currentBorrowers = filteredBorrowers.slice(indexOfFirst, indexOfLast);
 
   return (
-    <div className="table-section">
-      <h2>Risk Accounts</h2>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Balance</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {highRiskBorrowers.map((b) => (
-            <tr key={b._id}>
-              <td>{b.name}</td>
-              <td>{b.phone}</td>
-              <td>KES {b.balance}</td>
-              <td className={b.status?.toLowerCase()}>
-                {b.status}
-              </td>
-              <td>
-                <button onClick={() => setSelected(b)}>View</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* DETAILS MODAL */}
+    <div className="borrowers-board">
+      {/* EXPANDED DETAILS AT TOP */}
       {selected && (
-        <div className="details-modal">
-          <div className="details-content">
-            <button onClick={() => setSelected(null)}>Close</button>
+        <div className="expanded-card">
+          <button onClick={() => setSelected(null)}>Close</button>
+          <h3>{selected.name}</h3>
+          <p><strong>Phone:</strong> {selected.phone}</p>
+          <p><strong>Email:</strong> {selected.email}</p>
+          <p><strong>DOB:</strong> {new Date(selected.dob).toLocaleDateString()}</p>
+          <p><strong>Balance:</strong> KES {selected.balance}</p>
+          <p><strong>Status:</strong> {selected.status}</p>
 
-            <h3>Borrower Details</h3>
+          <textarea
+            placeholder="Add a comment..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
 
-            <p><strong>Name:</strong> {selected.name}</p>
-            <p><strong>Phone:</strong> {selected.phone}</p>
-            <p><strong>Email:</strong> {selected.email}</p>
-            <p><strong>DOB:</strong> {new Date(selected.dob).toLocaleDateString()}</p>
-
-            <hr />
-
-            <h4>Loan Information</h4>
-            <p><strong>Balance:</strong> KES {selected.balance}</p>
-
-            {selected.borrowHistory?.length > 0 && (
-              <p>
-                <strong>Last Loan:</strong> KES{" "}
-                {
-                  selected.borrowHistory[
-                    selected.borrowHistory.length - 1
-                  ].amount
-                }
-              </p>
-            )}
-
-            <hr />
-
-            <h4>Referee Details</h4>
-            <p><strong>Name:</strong> {selected.refereeName}</p>
-            <p><strong>Phone:</strong> {selected.refereePhone}</p>
-
-            <hr />
-
-            <h4>Notes</h4>
-            <p>{selected.notes || "No notes"}</p>
-          </div>
+          <button
+            onClick={() => {
+              alert(`Comment saved for ${selected.name}: ${comment}`);
+              setComment("");
+            }}
+          >
+            Save
+          </button>
         </div>
       )}
+
+      {/* Header & Filters */}
+      <div className="header">
+        <h2>Risk Customers</h2>
+        <div className="filters">
+          <select
+            value={filterBy}
+            onChange={(e) => setFilterBy(e.target.value)}
+          >
+            <option value="name">Name</option>
+            <option value="status">Status</option>
+          </select>
+
+          <input
+            type="text"
+            placeholder={`Search by ${filterBy}`}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+
+          <button onClick={() => setSearchQuery(searchInput)}>
+            Search
+          </button>
+        </div>
+      </div>
+
+      {/* Table Headers */}
+      <div className="borrowers-headers">
+        <div className="col name">Name</div>
+        <div className="col phone">Phone</div>
+        <div className="col amount">Amount</div>
+        <div className="col status">Status</div>
+        <div className="col action">Action</div>
+      </div>
+
+      {/* Borrower Rows */}
+      <div className="borrowers-list">
+        {currentBorrowers.map((b) => (
+          <div className="borrower-row" key={b._id}>
+            <div className="col name">{b.name}</div>
+            <div className="col phone">{b.phone}</div>
+            <div className="col amount">
+              KES{" "}
+              {b.amount}
+            </div>
+            <div className={`col status ${b.status?.toLowerCase()}`}>
+              {b.status}
+            </div>
+            <div className="col action">
+              <button onClick={() => setSelected(b)}>View</button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* PAGINATION */}
+      <div className="pagination">
+        {/* Prev */}
+        <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}>
+          ◀
+        </button>
+
+        {/* Numbers */}
+        {[...Array(totalPages)].map((_, i) => {
+          const page = i + 1;
+          return (
+            <button
+              key={page}
+              className={currentPage === page ? "active" : ""}
+              onClick={() => setCurrentPage(page)}
+            >
+              {page}
+            </button>
+          );
+        })}
+
+        {/* Next */}
+        <button
+          onClick={() =>
+            setCurrentPage((p) => Math.min(p + 1, totalPages))
+          }
+        >
+          ▶
+        </button>
+
+        {/* Per Page Dropdown */}
+        <select
+          value={perPage}
+          onChange={(e) => {
+            setPerPage(Number(e.target.value));
+            setCurrentPage(1);
+          }}
+        >
+          <option value={5}>5 / page</option>
+          <option value={10}>10 / page</option>
+          <option value={20}>20 / page</option>
+        </select>
+      </div>
     </div>
   );
 }
 
-export default BorrowersTable;
+export default BorrowersBoard;

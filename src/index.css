@@ -41,7 +41,7 @@ z-index:100;
 
 font-size:22px;
 font-weight:700;
-color:#1e3a8a;
+color:#0A5EA8;
 letter-spacing:1px;
 
 }
@@ -79,7 +79,7 @@ background:#f1f5f9;
 width:40px;
 height:40px;
 
-background:#2563eb;
+background:#0A5EA8;
 color:white;
 
 display:flex;
@@ -195,7 +195,7 @@ gap:10px;
 
 width:40px;
 height:40px;
-background:#2563eb;
+background:#0A5EA8;
 color:white;
 border-radius:50%;
 display:flex;
@@ -252,11 +252,14 @@ display:flex;
 height:100vh;
 }
 
+
+
+
 /* Sidebar */
 
 .sidebar{
 width:230px;
-background:#0d47a1;
+background:#0A5EA8;
 color:white;
 padding:20px;
 }
@@ -323,10 +326,156 @@ font-size:14px;
 }
 
 .card p{
-color:#0d47a1;
+color:#0A5EA8;
 font-size:22px;
 font-weight:bold;
 }
+
+
+/* risk customers */
+.borrowers-board {
+  max-width: 100%;
+  margin: 20px auto;
+ 
+}
+
+
+
+
+
+.filters {
+  position: absolute;
+  right: 0;
+  display: flex;
+  gap: 8px;
+}
+
+.filter-select,
+.filter-input {
+  height: 36px;
+  font-size: 14px;
+  padding: 0 8px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  outline: none;
+}
+
+.search-button {
+  height: 36px;
+  background-color: #0b63f9;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+/* HEADER ROW */
+.borrowers-headers {
+  display: flex;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 8px 12px;
+  background: #f3f3f3;
+}
+
+.borrowers-headers .col {
+  flex: 1;
+  font-size: 14px;
+}
+
+.borrowers-headers .name {
+  flex: 2;
+}
+
+.borrowers-headers .action {
+  flex: 0 0 80px;
+  text-align: right;
+}
+
+/* DATA ROWS */
+.borrowers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.borrower-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: #fafafa;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.borrower-row .col {
+  flex: 1;
+  font-size: 14px;
+}
+
+.borrower-row .col.name {
+  flex: 2;
+  font-weight: 600;
+}
+
+.borrower-row .col.action {
+  /* flex: 0 0 80px; */
+  /* text-align: right; */
+}
+
+.borrower-row .status.overdue {
+  color: #d93025;
+  font-weight: 600;
+}
+
+.borrower-row .status.pending {
+  color: #fbbc04;
+  font-weight: 600;
+}
+
+.borrower-row .status.active {
+  color: #188038;
+  font-weight: 600;
+}
+
+/* Modal */
+.modal {
+  /* position: fixed; */
+  /* top: 0; */
+  /* left: 0; */
+  /* width: 100%; */
+  /* height: 100%; */
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* padding: 20px; */
+  /* z-index: 9999; */
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 100%;
+  padding: 20px 30px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  /* max-height: 80vh; */
+  overflow-y: auto;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  /* float: right; */
+  /* margin-top: -10px; */
+  /* margin-right: -10px; */
+}
+
+
 
 /* Table */
 
@@ -348,7 +497,7 @@ border-bottom:1px solid #eee;
 }
 
 button{
-background:#1976d2;
+background:#0A5EA8;
 color:white;
 border:none;
 padding:8px 14px;
@@ -357,7 +506,7 @@ cursor:pointer;
 }
 
 button:hover{
-background:#0d47a1;
+background:#0A5EA8;
 }
 
 /* Status */
@@ -388,7 +537,7 @@ box-shadow:0 2px 4px rgba(0,0,0,0.03);
 }
 
 .logo{
-color:#1565c0;
+color:#0A5EA8;
 font-weight:bold;
 }
 
@@ -403,7 +552,7 @@ outline:none;
 }
 
 .search:focus{
-border-color:#1976d2;
+border-color:#0A5EA8;
 }
 
 /* Right section */
@@ -485,7 +634,42 @@ border-radius:50%;
 }
 
 
-/* Active Loans */
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  background: white;
+  color: black;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background: #333;
+  color: white;
+  border: none;
+}
+
+.pagination select {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+}
+
+.expanded-card {
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
 
 
 /* Borrowers page */
@@ -554,7 +738,7 @@ border-radius:50%;
 }
 /* Phone link */
 .call-link {
-  color: #2563eb;
+  color: #0A5EA8;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -563,7 +747,7 @@ border-radius:50%;
 }
 
 .call-link:hover {
-  color: #1d4ed8;
+  color: #0A5EA8;
 }
 
 /* Optional: smaller phone icon */
@@ -583,7 +767,7 @@ border-radius:50%;
 }
 
 .called-icon {
-  color: #10b981; 
+  color: #0A5EA8; 
 }
 
 .unreachable-icon {
@@ -617,7 +801,7 @@ border-radius:50%;
 .clickable-name-btn {
   background: none;
   border: none;
-  color: #2563eb;
+  color: #0A5EA8;
   cursor: pointer;
   font-weight: 500;
   text-decoration: underline;
@@ -625,7 +809,7 @@ border-radius:50%;
 }
 
 .clickable-name-btn:hover {
-  color: #1d4ed8;
+  color: #0A5EA8;
 }
 
 /* Optional: adjust cursor and spacing for status icons */
@@ -784,7 +968,7 @@ font-size:14px;
 
 width:100%;
 padding:12px;
-background:#2563eb;
+background:#0A5EA8;
 color:white;
 border:none;
 border-radius:6px;
@@ -796,7 +980,7 @@ transition:0.3s;
 
 .login-card button:hover{
 
-background:#1e4fd8;
+background:#0A5EA8;
 
 }
 
@@ -836,7 +1020,7 @@ h2 {
 }
 
 .user-form .btn-submit {
-  background-color: #2563eb;
+  background-color: #0A5EA8;
   color: #fff;
   padding: 10px 15px;
   border: none;
@@ -846,7 +1030,7 @@ h2 {
 }
 
 .user-form .btn-submit:hover {
-  background-color: #1d4ed8;
+  background-color: #0A5EA8;
 }
 
 .users-table {
@@ -924,7 +1108,7 @@ box-shadow:0 5px 15px rgba(0,0,0,0.1);
 
 .borrowers-table th{
 
-background:#2563eb;
+background:#0A5EA8;
 color:white;
 padding:14px;
 text-align:left;
@@ -1149,13 +1333,13 @@ background:#dc2626;
 }
 
 .call-icon {
-  color: #2563eb !important; /* blue */
+  color: #0A5EA8 !important; /* blue */
   cursor: pointer !important;
   font-size: 16px !important;
 }
 
 .call-icon:hover {
-  color: #1d4ed8 !important;
+  color: #0A5EA8 !important;
 }
 /* Table */
 .borrowers-table {
@@ -1166,14 +1350,14 @@ background:#dc2626;
 
 .borrowers-table th,
 .borrowers-table td {
-  padding: 10px !important;
+  padding: 7px !important;
   border-bottom: 1px solid #eee !important;
 }
 
 /* Clickable name */
 .click-name {
   cursor: pointer !important;
-  color: #2563eb !important;
+  color: none !important;
 }
 
 /* Details box */
@@ -1191,10 +1375,10 @@ background:#dc2626;
 }
 
 .status-buttons button {
-  padding: 6px 10px !important;
+  padding: 4px 10px !important;
   border: none !important;
   cursor: pointer !important;
-  border-radius: 4px !important;
+  border-radius: 3px !important;
 }
 
 /* Status buttons colors */
@@ -1232,13 +1416,31 @@ background:#dc2626;
   border-radius: 4px !important;
 }
 
-.status-label.called {
-  /* color: #22c55e !important; */
-}
 
 .status-label.unreachable {
   color: #ef4444 !important;
 }
+
+
+.comment-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.comment-box textarea {
+  min-height: 30px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+.comment-box button {
+  width: fit-content;
+}
+
 
 
 /* Responsiveness */
@@ -1247,66 +1449,6 @@ background:#dc2626;
   overflow-x: auto;
 }
 
-
-
-
-/* DUE BORROWERS PAGE */
-
-.due-page-layout {
-  display: flex;
-  min-height: 100vh;
-}
-
-.due-main-content {
-  flex: 1;
-  padding: 20px;
-  background: #f9fafb;
-}
-
-.due-title {
-  text-align: center;
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-/* TABLE */
-.due-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.due-table th {
-  background: #2563eb;
-  color: white;
-  padding: 14px;
-  text-align: left;
-  font-weight: 600;
-}
-
-.due-table td {
-  padding: 14px;
-  border-bottom: 1px solid #eee;
-}
-
-.due-table tr:hover {
-  background: #f8fafc;
-}
-
-/* CLICK NAME */
-.due-click-name {
-  cursor: pointer;
-  font-weight: 600;
-  color: #111827;
-}
-
-.due-click-name:hover {
-  text-decoration: underline;
-}
 
 /* PHONE CELL */
 .due-phone-cell {
@@ -1325,13 +1467,13 @@ background:#dc2626;
 }
 
 .due-call-icon {
-  color: #2563eb;
+  color: #0A5EA8;
   cursor: pointer;
   font-size: 16px;
 }
 
 .due-call-icon:hover {
-  color: #1d4ed8;
+  color: #0A5EA8;
 }
 
 /* STATUS */
@@ -1361,7 +1503,7 @@ background:#dc2626;
 }
 
 .due-status-label.called {
-  color: #22c55e;
+  color: #0A5EA8;
 }
 
 .due-status-label.unreachable {
@@ -1399,7 +1541,7 @@ background:#dc2626;
 .due-save-btn {
   width: fit-content;
   padding: 8px 14px;
-  background: #2563eb;
+  background: #0A5EA8;
   color: white;
   border: none;
   border-radius: 6px;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../components/SideBar";
 import "../index.css";
 import { FaPhoneAlt, FaCopy } from "react-icons/fa";
@@ -9,26 +9,26 @@ function ActiveLoansTablePage() {
   const [expanded, setExpanded] = useState(null);
 
   const token = localStorage.getItem("token");
-  const axiosConfig = {
-    headers: { Authorization: token ? `Bearer ${token}` : "" },
-  };
-
-  const fetchLoans = useCallback(async () => {
-    try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/borrowers/loans/active`,
-        axiosConfig,
-      );
-      setLoans(res.data);
-    } catch (err) {
-      console.error("Failed to fetch active loans:", err);
-      alert("Failed to fetch active loans");
-    }
-  }, [axiosConfig]);
 
   useEffect(() => {
+    const fetchLoans = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/borrowers/loans/active`,
+          {
+            headers: { Authorization: token ? `Bearer ${token}` : "" },
+          }
+        );
+
+        setLoans(res.data);
+      } catch (err) {
+        console.error("Failed to fetch active loans:", err);
+        alert("Failed to fetch active loans");
+      }
+    };
+
     fetchLoans();
-  }, [fetchLoans]);
+  }, [token]); // ✅ runs only when token changes
 
   const toggle = (id) => {
     setExpanded(expanded === id ? null : id);
@@ -64,8 +64,10 @@ function ActiveLoansTablePage() {
                 </td>
               </tr>
             ) : (
-              loans.map((loan) => (
-                <React.Fragment key={loan.borrowerId}>
+              loans.map((loan, index) => (
+                <React.Fragment
+                  key={`${loan.borrowerId}-${loan.dueDate}-${index}`} // ✅ fixed key issue
+                >
                   <tr>
                     {/* CLICKABLE NAME */}
                     <td
@@ -89,9 +91,13 @@ function ActiveLoansTablePage() {
                       </a>
                     </td>
 
-                    <td>KES {loan.amount.toLocaleString()}</td>
+                    <td>KES {loan.amount?.toLocaleString()}</td>
 
-                    <td>{new Date(loan.dueDate).toLocaleDateString()}</td>
+                    <td>
+                      {loan.dueDate
+                        ? new Date(loan.dueDate).toLocaleDateString()
+                        : "-"}
+                    </td>
                   </tr>
 
                   {/* EXPANDED DETAILS */}
@@ -103,18 +109,16 @@ function ActiveLoansTablePage() {
                             <strong>Name:</strong> {loan.name || "-"}
                           </p>
                           <p>
-                            <strong>Phone Number:</strong> {loan.phone || "-"}
+                            <strong>Phone Number:</strong>{" "}
+                            {loan.phone || "-"}
                           </p>
-
                           <p>
                             <strong>Email:</strong> {loan.email || "-"}
                           </p>
-
                           <p>
                             <strong>Referrer Name:</strong>{" "}
                             {loan.refereeName || "-"}
                           </p>
-
                           <p>
                             <strong>Referrer Phone:</strong>{" "}
                             {loan.refereePhone || "-"}
