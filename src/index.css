@@ -1108,8 +1108,8 @@ box-shadow:0 5px 15px rgba(0,0,0,0.1);
 
 .borrowers-table th{
 
-background:#0A5EA8;
-color:white;
+background:rgb(249, 249, 249);
+color:black;
 padding:14px;
 text-align:left;
 font-weight:600;
